@@ -114,3 +114,16 @@ $ py.test tests/ --cov django_flanker --cov-report term-missing --pep8 django_fl
 ```
 
 ...or let [Tox](https://pypi.python.org/pypi/tox) do the heavy lifting.
+
+
+Changelog
+---------
+
+### v0.2.0 | 2014-01-25
+
+* DjangoCache driver for Flanker's MX record cache.
+
+### v0.1.0 | 2014-01-25
+
+* Initial release
+* Drop-in replacements for models.EmailField and forms.EmailField.
