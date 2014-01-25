@@ -21,12 +21,43 @@ Install
 pip install django-flanker
 ```
 
+Module Overview
+---------------
+
+**django_flanker.driver.DjangoCache**
+
+A driver for Flanker's MX record cache that uses Django's built-in caching
+mechanism. This driver is installed by default, but can be disabled by setting
+``FLANKER_DRIVER_ENABLED`` to ``False`` in your Django site settings.
+
+**django_flanker.forms.EmailField**
+
+A drop-in replacement for ``django.forms.EmailField``.
+
+**django_flanker.models.EmailField**
+
+A drop-in replacement for ``django.db.models.EmailField``.
+
+**django_flanker.validators.FlankerValidator**
+
+A Django [validator](https://docs.djangoproject.com/en/dev/ref/validators/)
+that uses Flanker to validate an email address. If the email address is not
+valid, it tries to find a suggestion and adds it to the error message.
+
 Usage
 -----
 
-### models.py
+### settings.py
 
-Replace ``django.db.models.EmailField`` with ``django_flanker.models.EmailFild``:
+```
+...
+INSTALLED_APPS = [
+    ...
+    'django_flanker',
+]
+```
+
+### models.py
 
 ```
 from django.db import models
@@ -42,8 +73,6 @@ class Person(models.Model):
 ```
 
 ### forms.py
-
-Replace ``django.forms.EmailField`` with ``django_flanker.forms.EmailFild``:
 
 ```
 from django import forms
@@ -61,12 +90,27 @@ class EmailForm(forms.Form):
     email = EmailField()
 ```
 
+Settings
+--------
+
+**FLANKER_DRIVER_ENABLED** *Default: True*
+
+Set this to ``False`` to disable the DjangoCache Flanker driver.
+
+**FLANKER_DRIVER_PARAMS** *Default: {}*
+
+Custom parameters passed to the DjangoDriver. The available options are:
+
+* **backend**: "default"
+* **prefix**: "mxr:"
+* **ttl**: 604800
+
 Testing
 -------
 
 ```
 $ pip install -r requirements.txt
-$ py.test tests/ --cov django_flanker
+$ py.test tests/ --cov django_flanker --cov-report term-missing --pep8 django_flanker
 ```
 
 ...or let [Tox](https://pypi.python.org/pypi/tox) do the heavy lifting.
