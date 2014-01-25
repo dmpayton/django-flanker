@@ -1,0 +1,9 @@
+1. Update version info
+ * README.md
+ * django_flanker/__init__.py
+
+2. git tag -a vX.Y.Z -m 'Version X.Y.Z'
+
+3. Upload to PyPI:
+ * python setup.py sdist upload
+ * python setup.py bdist_wheel upload
