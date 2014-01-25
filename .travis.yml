@@ -12,7 +12,7 @@ install:
     - python setup.py -q install
 
 script:
-    - py.test tests/ --cov django_flanker --cov-report term-missing
+    - py.test tests/ --cov django_flanker --cov-report term-missing --pep8 django_flanker
 
 after_success:
     - coveralls

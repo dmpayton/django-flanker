@@ -2,5 +2,6 @@ django>=1.6
 flanker
 mock
 pytest
-pytest-django
 pytest-cov
+pytest-django
+pytest-pep8
