@@ -1,5 +1,12 @@
+from django.conf import settings
 from django.db import models
-from . import forms, validators
+from flanker import addresslib
+from . import driver, forms, validators
+
+
+if getattr(settings, 'FLANKER_DRIVER_ENABLED', True):
+    params = getattr(settings, 'FLANKER_DRIVER_PARAMS', {})
+    addresslib.set_mx_cache(driver.DjangoCache(**params))
 
 
 class EmailField(models.EmailField):
