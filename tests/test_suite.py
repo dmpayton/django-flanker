@@ -1,5 +1,3 @@
-import random
-import string
 from django import test
 from django.core import exceptions
 from django_flanker.forms import EmailField
@@ -18,21 +16,12 @@ def mock_exchanger_lookup(arg, metrics=False):
     return (mx_record, mtimes)
 
 
-def generate_bad_email():
-    pool = string.lowercase + string.digits
-    local = ''.join([random.choice(pool) for x in xrange(15)])
-    host = ''.join([random.choice(pool) for x in xrange(32)])
-    return '{0}@{1}.com'.format(local, host)
-
-
 @patch.object(validate, 'mail_exchanger_lookup', mock_exchanger_lookup)
 class FlankerTests(test.TestCase):
     def test_validator(self):
         assert flanker_validator('derek.payton@gmail.com') is None
         with raises(exceptions.ValidationError):
-            flanker_validator('derek.payton@g-mail.com')
-        with raises(exceptions.ValidationError):
-            flanker_validator(generate_bad_email())
+            flanker_validator('user@bad-email.com')
 
     def test_model_form_field(self):
         form = PersonForm()
@@ -43,7 +32,7 @@ class FlankerTests(test.TestCase):
         assert form.is_valid() is True
 
     def test_form_invalid(self):
-        form = EmailForm({'email': generate_bad_email()})
+        form = EmailForm({'email': 'user@bad-email.com'})
         assert form.is_valid() is False
 
     def test_form_invalid_suggest(self):

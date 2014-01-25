@@ -8,6 +8,11 @@ python:
 
 install:
     - pip install -r requirements.txt --use-mirrors
+    - pip install python-coveralls --use-mirrors
     - python setup.py -q install
 
-script: py.test tests/ --cov django_flanker
+script:
+    - py.test tests/ --cov django_flanker --cov-report term-missing --pep8 django_flanker
+
+after_success:
+    - coveralls
