@@ -4,6 +4,6 @@ python:
 
 install:
     - pip install -r requirements.txt --use-mirrors
-    - python setup.py -q install --use-mirrors
+    - python setup.py -q install
 
 script: py.test tests/ --cov django_flanker
