@@ -33,7 +33,7 @@ setup(
         'Programming Language :: Python',
         'Topic :: Internet :: WWW/HTTP :: Dynamic Content',
         ],
-    keywords='django flanker email',
+    keywords='django flanker mailgun email validation',
     maintainer='Derek Payton',
     maintainer_email='derek.payton@gmail.com',
     url='https://github.com/dmpayton/django-flanker',
