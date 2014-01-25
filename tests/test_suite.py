@@ -5,8 +5,17 @@ from django.core import exceptions
 from django_flanker.forms import EmailField
 from django_flanker.validators import flanker_validator
 from flanker.addresslib import validate
+from mock import patch
 from pytest import raises
 from .forms import EmailForm, PersonForm
+
+
+def mock_exchanger_lookup(arg, metrics=False):
+    mtimes = {'mx_lookup': 0, 'dns_lookup': 0, 'mx_conn': 0}
+    mx_record = None
+    if arg == 'gmail.com':
+        mx_record = 'sample.gmail-smtp-in.l.google.com'
+    return (mx_record, mtimes)
 
 
 def generate_bad_email():
@@ -16,6 +25,7 @@ def generate_bad_email():
     return '{0}@{1}.com'.format(local, host)
 
 
+@patch.object(validate, 'mail_exchanger_lookup', mock_exchanger_lookup)
 class FlankerTests(test.TestCase):
     def test_validator(self):
         assert flanker_validator('derek.payton@gmail.com') is None

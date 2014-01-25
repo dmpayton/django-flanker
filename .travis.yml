@@ -2,7 +2,6 @@ language: python
 
 services:
   - redis-server
-  - sqlite
 
 python:
     - "2.7"
