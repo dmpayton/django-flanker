@@ -40,7 +40,7 @@ setup(
     download_url='https://github.com/dmpayton/django-flanker/tarball/v%s' % __version__,
     license=__license__,
     include_package_data=True,
-    packages=find_packages(),
+    packages=find_packages(exclude=['tests']),
     install_requires=[
         'django',
         'flanker'
