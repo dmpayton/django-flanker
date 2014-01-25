@@ -7,7 +7,10 @@ python:
     - "2.7"
 
 install:
-    - pip install -r requirements.txt --use-mirrors
+    - pip install -q -r requirements.txt --use-mirrors
+    - pip install -q coveralls --use-mirrors
     - python setup.py -q install
 
 script: py.test tests/ --cov django_flanker
+
+after_success: coveralls
