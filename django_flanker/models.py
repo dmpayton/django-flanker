@@ -4,6 +4,15 @@ from flanker import addresslib
 from . import driver, forms, validators
 
 
+try:
+    from south.modelsinspector import add_introspection_rules
+    add_introspection_rules(
+        [], ['^django_flanker\.models\.EmailField']
+    )
+except ImportError:
+    pass
+
+
 if getattr(settings, 'FLANKER_DRIVER_ENABLED', True):
     params = getattr(settings, 'FLANKER_DRIVER_PARAMS', {})
     addresslib.set_mx_cache(driver.DjangoCache(**params))
