@@ -15,7 +15,7 @@ class FlankerValidator(EmailValidator):
     def __call__(self, value):
         super(FlankerValidator, self).__call__(value)
 
-        if address.validate_address(value) is None:
+        if value and address.validate_address(value) is None:
             suggestion = validate.suggest_alternate(value)
             if suggestion:
                 message = string_concat(self.message, ' ', self.suggest_fragment)
