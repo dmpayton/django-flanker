@@ -1,18 +1,23 @@
 from django import test
 from django.core import exceptions
+from django.core.cache import get_cache
 from django_flanker.forms import EmailField
 from django_flanker.validators import flanker_validator
+from flanker import addresslib
 from flanker.addresslib import validate
 from mock import patch
 from pytest import raises
 from .forms import EmailForm, PersonForm
 
+GMAIL_MX_RECORD = 'sample.gmail-smtp-in.l.google.com'
+
 
 def mock_exchanger_lookup(arg, metrics=False):
+    ''' A mock exchanger lookup that is valid only for gmail.com. '''
     mtimes = {'mx_lookup': 0, 'dns_lookup': 0, 'mx_conn': 0}
     mx_record = None
     if arg == 'gmail.com':
-        mx_record = 'sample.gmail-smtp-in.l.google.com'
+        mx_record = GMAIL_MX_RECORD
     return (mx_record, mtimes)
 
 
@@ -41,3 +46,21 @@ class FlankerTests(test.TestCase):
         form = EmailForm({'email': bad_email})
         assert form.is_valid() is False
         assert suggestion in form.errors['email'].as_text()
+
+    def test_driver_keytransform(self):
+        assert addresslib.mx_cache.__keytransform__('gmail.com') == 'mxr:gmail.com'
+
+    def test_driver_set(self):
+        cache = get_cache('default')
+        addresslib.mx_cache['gmail.com'] = GMAIL_MX_RECORD
+        assert cache.get('mxr:gmail.com') == GMAIL_MX_RECORD
+
+    def test_driver_get(self):
+        addresslib.mx_cache['gmail.com'] = GMAIL_MX_RECORD
+        assert addresslib.mx_cache['gmail.com'] == GMAIL_MX_RECORD
+
+    def test_driver_delete(self):
+        cache = get_cache('default')
+        addresslib.mx_cache['gmail.com'] = GMAIL_MX_RECORD
+        del addresslib.mx_cache['gmail.com']
+        assert cache.get('gmail.com') is None

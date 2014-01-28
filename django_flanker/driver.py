@@ -35,11 +35,6 @@ class DjangoCache(collections.MutableMapping):
         """Generate the key name"""
         return ''.join([self.prefix, str(key)])
 
-    def __value_generator__(self, keys):
-        """Generator to pull multiple keys"""
-        for key in keys:
-            yield self.cache.get(key)
-
     def __iter__(self):
         """Cache Iterator (not available with Django's cache)"""
         return iter([])
