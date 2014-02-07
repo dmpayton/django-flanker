@@ -11,7 +11,7 @@ models that uses Mailgun's [flanker](https://github.com/mailgun/flanker)
 library for more extensive validation.
 
 * **Author**: [Derek Payton](http://dmpayton.com)
-* **Version**: 0.2.0
+* **Version**: 0.3.0
 * **License**: MIT
 
 Install
