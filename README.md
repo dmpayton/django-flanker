@@ -119,6 +119,10 @@ $ py.test tests/ --cov django_flanker --cov-report term-missing --pep8 django_fl
 Changelog
 ---------
 
+### v0.3.0 | 2014-02-07
+
+* Fix error messages so typo suggestion displays in Django 1.5 and below.
+
 ### v0.2.0 | 2014-01-25
 
 * DjangoCache driver for Flanker's MX record cache.
